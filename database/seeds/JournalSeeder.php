@@ -15,7 +15,7 @@ class JournalSeeder extends Seeder
     {
         Journal::truncate();
 
-        $me = User::firstWhere('email',"stevemarvell@crucialtechnical.com");
+        $me = User::firstWhere('email',"behat.tester@example.com");
 
         if ($me) {
 

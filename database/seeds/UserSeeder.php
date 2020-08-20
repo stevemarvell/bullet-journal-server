@@ -15,9 +15,9 @@ class UserSeeder extends Seeder
         User::truncate();
 
         User::create([
-            'name' => "Steve Marvell",
-            'email' => "stevemarvell@crucialtechnical.com",
-            'password' => bcrypt("password"),
+            'name' => "Behat Tester",
+            'email' => "behat.tester@example.com",
+            'password' => bcrypt("behatpassword"),
         ]);
 
         factory(User::class, 10)->create();
