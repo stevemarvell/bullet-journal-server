@@ -15,15 +15,15 @@ class JournalSeeder extends Seeder
     {
         Journal::truncate();
 
-        $me = User::firstWhere('email',"behat.tester@example.com");
+        $me = User::firstWhere('email', "tester@example.com");
 
         if ($me) {
 
             $year = 2019;
 
-            Journal::create([
+            $me->journals()->create([
 
-                'index' => "A",
+                'code' => "A",
                 'title' => $me->name . " Year " . $year,
 
                 'started_at' => "$year-01-01",
@@ -34,18 +34,36 @@ class JournalSeeder extends Seeder
 
             $year++;
 
-            Journal::create([
+            $me->journals()->create([
 
-                'index' => "B",
+                'code' => "B",
                 'title' => $me->name . " Year " . $year,
 
                 'started_at' => "$year-01-10",
                 'completed_at' => null,
-
-                'user_id' => $me->id,
             ]);
         }
 
-        factory(Journal::class, 30)->create();
+        $maxJournals = 3;
+
+        foreach (User::all() as $user) {
+
+            if ($user == $me) continue;
+
+            $completedStatus = true;
+            $count = 0;
+
+            while($completedStatus && $count < $maxJournals) {
+
+                if (rand(0,9) < 3) break;
+
+                $journal = factory(Journal::class)->create();
+
+                $user->journals()->save($journal);
+
+                $completedStatus = $journal->isCompleted();
+            }
+
+        }
     }
 }

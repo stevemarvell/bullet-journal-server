@@ -11,7 +11,7 @@ class Journal extends Model
     {
         static::creating(function($journal) {
 
-            $user = User::all()->find($journal->user_id);
+            /*$user = User::all()->find($journal->user_id);
 
             if( $user->journals()->where('index',$journal->index)->first() ) {
                 throw(new JournalException("Cannot create journal with repeated index"));
@@ -19,7 +19,7 @@ class Journal extends Model
 
             if( $user->journals()->where('completed_at',null)->first() ) {
                 throw(new JournalException("Cannot create journal when not completed journal exists"));
-            }
+            }*/
         });
     }
 
@@ -29,7 +29,7 @@ class Journal extends Model
      * @var array
      */
     protected $fillable = [
-        'index', 'title', 'started_at', 'completed_at',
+        'code', 'title', 'started_at', 'completed_at',
     ];
 
     /**
@@ -42,8 +42,16 @@ class Journal extends Model
         'completed_at' => 'datetime',
     ];
 
-    public function complete() {
+    public function doComplete() {
         $this->completed_at = date(DATE_ATOM);
         $this->save();
+    }
+
+    public function isCompleted() {
+        return isset($this->completed_at);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 }

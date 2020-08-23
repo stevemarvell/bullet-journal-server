@@ -5,9 +5,9 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
 type Query {
-    users: [User!]! @paginate(defaultCount: 10)
+    users(orderBy: _ @orderBy(columns: ["name"])): [User!]! @paginate(defaultCount: 10)
     user(id: ID @eq): User @find
-    journals: [Journal!]! @paginate(defaultCount: 10)
+    journals(orderBy: _ @orderBy(columns: ["title"])): [Journal!]! @paginate(defaultCount: 10)
     journal(id: ID @eq): Journal @find
 }
 
@@ -18,15 +18,13 @@ type User {
     created_at: DateTime!
     updated_at: DateTime!
 
-    journals: [Journal]
+    journals(orderBy: _ @orderBy(columns: ["title"])): [Journal!]
 }
 
 type Journal {
     id: ID!
-    index: String!
+    code: String!
     title: String!
     started_at: DateTime
     completed_at: DateTime
-    created_at: DateTime!
-    updated_at: DateTime!
 }

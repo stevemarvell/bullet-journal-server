@@ -16,7 +16,7 @@ class CreateJournalsTable extends Migration
         Schema::create('journals', function (Blueprint $table) {
             $table->id();
 
-            $table->string('index');
+            $table->string('code');
             $table->string('title');
 
             $table->dateTime('started_at')->nullable();
@@ -24,9 +24,9 @@ class CreateJournalsTable extends Migration
 
             $table->timestamps();
 
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->nullable()->constrained('users');
 
-            $table->unique(['user_id', 'index']);
+            $table->unique(['user_id', 'code']);
         });
     }
 
